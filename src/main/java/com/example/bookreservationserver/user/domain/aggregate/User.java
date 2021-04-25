@@ -43,8 +43,8 @@ public class User {
         setPassword(newPassword);
     }
 
-    private boolean matchPassword(String oldPassword) {
-        return password.equals(oldPassword);
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
     }
 
     private void setPassword(String newPassword){
