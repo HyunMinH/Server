@@ -1,7 +1,5 @@
 package com.example.bookreservationserver.user.controller;
 
-import com.example.bookreservationserver.advice.ErrorCode;
-import com.example.bookreservationserver.advice.ErrorResponse;
 import com.example.bookreservationserver.user.dto.AuthRequest;
 import com.example.bookreservationserver.user.dto.JoinRequest;
 import com.example.bookreservationserver.user.service.AuthService;
@@ -10,8 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
