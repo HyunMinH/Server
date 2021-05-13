@@ -3,6 +3,7 @@ package com.example.bookreservationserver.user.service;
 import com.example.bookreservationserver.user.domain.aggregate.User;
 import com.example.bookreservationserver.user.domain.repository.UserEntityRepository;
 import com.example.bookreservationserver.user.dto.JoinRequest;
+import com.example.bookreservationserver.user.dto.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +14,16 @@ public class JoinService {
     private UserEntityRepository userEntityRepository;
 
     @Transactional
-    public void join(JoinRequest joinRequest){
+    public UserResponse join(JoinRequest joinRequest){
         checkDuplicateId(joinRequest.getEmail());
-        saveAsNewUser(joinRequest);
+        User user = saveAsNewUser(joinRequest);
+        return new UserResponse(user);
     }
 
-    private void saveAsNewUser(JoinRequest joinRequest) {
+    private User saveAsNewUser(JoinRequest joinRequest) {
         User user = new User(joinRequest);
         userEntityRepository.save(user);
+        return user;
     }
 
     private void checkDuplicateId(String email){

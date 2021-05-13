@@ -1,15 +1,16 @@
 package com.example.bookreservationserver.user.controller;
 
+import com.example.bookreservationserver.user.domain.aggregate.User;
 import com.example.bookreservationserver.user.dto.AuthRequest;
 import com.example.bookreservationserver.user.dto.JoinRequest;
+import com.example.bookreservationserver.user.dto.UserResponse;
 import com.example.bookreservationserver.user.service.AuthService;
 import com.example.bookreservationserver.user.service.JoinService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -24,15 +25,13 @@ public class UserApi {
     private AuthService authService;
 
     @PostMapping("/api/user/join")
-    public ResponseEntity join(@RequestBody @Valid JoinRequest joinRequest){
-        joinService.join(joinRequest);
-        return new ResponseEntity(HttpStatus.OK);
+    public UserResponse join(@RequestBody @Valid JoinRequest joinRequest){
+        return joinService.join(joinRequest);
     }
 
     @PostMapping("/api/user/login")
-    public ResponseEntity login(@RequestBody @Valid AuthRequest authRequest, HttpSession httpSession){
-        authService.auth(authRequest);
+    public UserResponse login(@RequestBody @Valid AuthRequest authRequest, HttpSession httpSession){
         httpSession.setAttribute("email", authRequest.getEmail());
-        return new ResponseEntity(HttpStatus.OK);
+        return authService.auth(authRequest);
     }
 }
