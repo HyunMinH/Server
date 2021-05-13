@@ -25,12 +25,11 @@ public class GlobalExceptionHandler {
      *  HttpMessageConverter 에서 등록한 HttpMessageConverter binding 못할경우 발생
      *  주로 @RequestBody, @RequestPart 어노테이션에서 발생
      */
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    @ResponseBody
-    public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("handleMethodArgumentNotValidException", e.getMessage());
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, e.getBindingResult());
-        return response;
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     /**
