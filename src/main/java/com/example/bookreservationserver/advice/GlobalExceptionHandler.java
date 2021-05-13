@@ -83,9 +83,23 @@ public class GlobalExceptionHandler {
 //        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
 //    }
 
+    @ExceptionHandler(IllegalStateException.class)
+    protected ResponseEntity<ErrorResponse> handleIllegalStatementException(IllegalStateException e){
+        log.error("illegalStateException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ILLEGAL_STATE, e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e){
+        log.error("illegalArgumentException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ILLEGAL_ARGUMENT, e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     protected ResponseEntity handleException(Exception e) {
-        log.error("handleEntityNotFoundException", e);
+        log.error("exception", e);
         return new ResponseEntity<>(e.getMessage() ,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
