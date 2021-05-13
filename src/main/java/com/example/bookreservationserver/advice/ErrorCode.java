@@ -7,8 +7,8 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403, "COMMON_003", "Access is Denied"),
 
     // Standard
-    ILLEGAL_STATE(500, "STANDARD_001", "illegal state"),
-    ILLEGAL_ARGUMENT(501, "STANDARD_002", "illegal argument"),
+    ILLEGAL_STATE(400, "STANDARD_001", "illegal state"),
+    ILLEGAL_ARGUMENT(400, "STANDARD_002", "illegal argument"),
 
     // Member
     EMAIL_DUPLICATION(400, "USER_001", "Email is Duplication"),
