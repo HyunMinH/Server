@@ -53,4 +53,24 @@ public class User {
 
         password = newPw;
     }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
