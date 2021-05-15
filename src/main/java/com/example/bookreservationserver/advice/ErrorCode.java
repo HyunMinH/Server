@@ -12,7 +12,10 @@ public enum ErrorCode {
 
     // Member
     EMAIL_DUPLICATION(400, "USER_001", "Email is Duplication"),
-    LOGIN_INPUT_INVALID(400, "USER_002", "Login input is invalid");
+    LOGIN_INPUT_INVALID(400, "USER_002", "Login input is invalid"),
+
+    // Exception
+    EXCEPTION(500, "EXCEPTION", "exception");
 
     private final String code;
     private final String message;
