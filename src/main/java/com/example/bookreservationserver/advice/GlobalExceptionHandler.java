@@ -99,6 +99,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     protected ResponseEntity handleException(Exception e) {
         log.error("exception", e);
-        return new ResponseEntity<>(e.getMessage() ,HttpStatus.INTERNAL_SERVER_ERROR);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.EXCEPTION, e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
