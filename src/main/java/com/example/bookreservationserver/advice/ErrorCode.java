@@ -3,7 +3,7 @@ package com.example.bookreservationserver.advice;
 public enum ErrorCode {
     // Common
     INVALID_INPUT_VALUE(400, "COMMON_001", " Invalid Input Value"),
-    METHOD_NOT_ALLOWED(405, "COMMON_002", " Invalid Input Value"),
+    METHOD_NOT_ALLOWED(405, "COMMON_002", "Method not allowed"),
     HANDLE_ACCESS_DENIED(403, "COMMON_003", "Access is Denied"),
 
     // Standard
