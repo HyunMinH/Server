@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BorrowEntityRepository extends JpaRepository<Borrow, Long> {
     List<Borrow> findBorrowsByBorrower_UserId(Long userId);
+
 }

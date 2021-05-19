@@ -29,7 +29,7 @@ public class BorrowApi {
     }
     
     @GetMapping("/api/borrow/search/{userId}")
-    public List<Borrow> searchMyBorrow(@PathVariable("userId") Long userId){
+    public List<BorrowResponse> searchMyBorrow(@PathVariable("userId") Long userId){
         return searchService.getMyReservations(userId);
     }
 
