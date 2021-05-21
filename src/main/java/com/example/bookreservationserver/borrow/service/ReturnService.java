@@ -13,10 +13,10 @@ public class ReturnService {
     private BorrowEntityRepository borrowEntityRepository;
 
     @Transactional
-    public void returnBook(Long bookId){
-        Optional<Borrow> bookOptional = borrowEntityRepository.findById(bookId);
-        if(bookOptional.isEmpty()) throw new IllegalArgumentException("cannot found book by bookId[" +bookId + "]");
-        bookOptional.get().returned();
+    public void returnBook(Long borrowId){
+        Optional<Borrow> borrowOptional = borrowEntityRepository.findById(borrowId);
+        if(borrowOptional.isEmpty()) throw new IllegalArgumentException("해당 책은 대여중이 아닙니다.");
+        borrowOptional.get().returned();
     }
 
     @Autowired
