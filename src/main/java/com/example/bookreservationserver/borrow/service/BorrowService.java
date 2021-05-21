@@ -4,6 +4,7 @@ package com.example.bookreservationserver.borrow.service;
 import com.example.bookreservationserver.book.domain.aggregate.Book;
 import com.example.bookreservationserver.book.domain.repository.BookEntityRepository;
 import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
+import com.example.bookreservationserver.borrow.domain.aggregate.BorrowState;
 import com.example.bookreservationserver.borrow.domain.repository.BorrowEntityRepository;
 import com.example.bookreservationserver.borrow.dto.BorrowRequest;
 import com.example.bookreservationserver.borrow.dto.BorrowResponse;
@@ -25,12 +26,12 @@ public class BorrowService {
         if(!userEntityRepository.existsById(borrowRequest.getBorrowerId()))
             throw new IllegalArgumentException("빌리려는 사용자의 id가 맞지 않습니다.");
 
-        // 현재 이 책이 빌림 당하는 중임을 처리해야함!
+        if(borrowEntityRepository.findBorrowsByBookIdAndState(borrowRequest.getBookId(), BorrowState.BORROWING).size() > 0){
+            throw new IllegalArgumentException("해당 책은 이미 대여중인 책입니다.");
+        }
 
-        for(Long bookId : borrowRequest.getBookIds()){
-            // book repository에 너무 접근 많이 함 -> IO 큼
-            if(!bookEntityRepository.existsById(bookId))
-                throw new IllegalArgumentException("다음의 id를 가지는 책이 없습니다." + bookId);
+        if(!bookEntityRepository.existsById(borrowRequest.getBookId())){
+            throw new IllegalArgumentException("해당 id를 가지는 책이 없습니다. (" + borrowRequest.getBookId() + ")");
         }
 
         Borrow borrow = new Borrow(borrowRequest);

@@ -21,33 +21,19 @@ public class BorrowResponse {
 
     private LocalDateTime expiredAt;
 
-    private List<Long> booksIds;
+    private Long booksId;
 
     public BorrowResponse(Borrow borrow) {
         this.borrow_id = borrow.getBorrow_id();
         this.state = borrow.getState();
         this.createdAt = borrow.getCreatedAt();
         this.expiredAt = borrow.getExpiredAt();
-        this.booksIds = borrow.getBorrowLines().stream().map(borrowLine -> borrowLine.getBookId()).collect(Collectors.toList());
+        this.booksId = borrow.getBookId();
     }
 
-    public Long getBorrow_id() {
-        return borrow_id;
-    }
-
-    public BorrowState getState() {
-        return state;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getExpiredAt() {
-        return expiredAt;
-    }
-
-    public List<Long> getBooksIds() {
-        return booksIds;
-    }
+    public Long getBorrow_id() { return borrow_id; }
+    public BorrowState getState() { return state; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getExpiredAt() { return expiredAt; }
+    public Long getBooksId() { return booksId; }
 }

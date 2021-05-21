@@ -13,17 +13,10 @@ public class BorrowRequest {
     private String borrowerName;
 
     @NotNull
-    private List<Long> bookIds;
+    private Long bookId;
 
-    public Long getBorrowerId() {
-        return borrowerId;
-    }
 
-    public String getBorrowerName() {
-        return borrowerName;
-    }
-
-    public List<Long> getBookIds() {
-        return bookIds;
-    }
+    public Long getBorrowerId() { return borrowerId; }
+    public String getBorrowerName() { return borrowerName; }
+    public Long getBookId() { return bookId; }
 }

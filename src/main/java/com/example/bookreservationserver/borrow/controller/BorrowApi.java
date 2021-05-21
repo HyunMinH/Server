@@ -1,6 +1,5 @@
 package com.example.bookreservationserver.borrow.controller;
 
-import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
 import com.example.bookreservationserver.borrow.dto.BorrowRequest;
 import com.example.bookreservationserver.borrow.dto.BorrowResponse;
 import com.example.bookreservationserver.borrow.service.BorrowService;
@@ -18,19 +17,25 @@ public class BorrowApi {
     private ReturnService returnService;
     private BorrowService borrowService;
 
-    @PostMapping(value = "/api/borrow/create", produces = "application/json; charset=utf8")
+    @PostMapping(value = "/api/borrow", produces = "application/json; charset=utf8")
     public BorrowResponse borrow(@RequestBody @Valid BorrowRequest borrowRequest){
         return borrowService.borrowBook(borrowRequest);
     }
 
-    @PostMapping("/api/borrow/return/{bookId}")
-    public void returnBook(@PathVariable("bookId") Long bookId){
+    @PostMapping("/api/borrow/{borrowId}/return")
+    public String returnBook(@PathVariable("borrowId") Long bookId){
         returnService.returnBook(bookId);
+        return "반납이 완료되었습니다.";
     }
     
-    @GetMapping("/api/borrow/search/{userId}")
+    @GetMapping("/api/borrow/all/{userId}")
     public List<BorrowResponse> searchMyBorrow(@PathVariable("userId") Long userId){
         return searchService.getMyReservations(userId);
+    }
+
+    @GetMapping("/api/borrow/borrowing/{userId}")
+    public List<BorrowResponse> searchMyBorrowing(@PathVariable("userId") Long userId){
+        return searchService.getMyBorrowingReservations(userId);
     }
 
     @Autowired

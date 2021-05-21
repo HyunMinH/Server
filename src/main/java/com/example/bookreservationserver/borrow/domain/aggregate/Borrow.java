@@ -26,9 +26,7 @@ public class Borrow {
 
     private LocalDateTime expiredAt;
 
-    @ElementCollection
-    @CollectionTable(name="borrow_line", joinColumns = @JoinColumn(name="borrow_id"))
-    private List<BorrowLine> borrowLines;
+    private Long bookId;
 
     protected Borrow(){ }
 
@@ -36,12 +34,7 @@ public class Borrow {
         borrower = new Borrower(request.getBorrowerId(), request.getBorrowerName());
         state = BorrowState.BORROWING;
         setBorrowTime(defaultPeriodDay);
-        setReservationLines(request.getBookIds());
-    }
-
-    private void setReservationLines(List<Long> bookIds){
-        if(bookIds.size() <= 0) throw new IllegalArgumentException("You must have at least one book to borrow.");
-        this.borrowLines = bookIds.stream().map(id -> new BorrowLine(id)).collect(Collectors.toList());
+        bookId = request.getBookId();
     }
 
     private void setBorrowTime(int dayOfExpirationInterval){
@@ -58,7 +51,7 @@ public class Borrow {
     }
 
     public void returned(){
-        if(state == BorrowState.RETURNED) throw new IllegalStateException("already returned");
+        if(state == BorrowState.RETURNED) throw new IllegalStateException("이미 반납이 완료되었습니다.");
         state = BorrowState.RETURNED;
     }
 
@@ -69,5 +62,5 @@ public class Borrow {
     public BorrowState getState() { return state; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getExpiredAt() { return expiredAt; }
-    public List<BorrowLine> getBorrowLines() { return borrowLines; }
+    public Long getBookId() { return bookId; }
 }
