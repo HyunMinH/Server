@@ -1,6 +1,5 @@
 package com.example.bookreservationserver.user.controller;
 
-import com.example.bookreservationserver.user.domain.aggregate.User;
 import com.example.bookreservationserver.user.dto.AuthRequest;
 import com.example.bookreservationserver.user.dto.JoinRequest;
 import com.example.bookreservationserver.user.dto.UserResponse;
@@ -10,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;

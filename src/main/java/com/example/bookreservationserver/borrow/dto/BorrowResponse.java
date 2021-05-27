@@ -1,14 +1,11 @@
 package com.example.bookreservationserver.borrow.dto;
 
+import com.example.bookreservationserver.book.domain.aggregate.Book;
 import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
-import com.example.bookreservationserver.borrow.domain.aggregate.BorrowLine;
 import com.example.bookreservationserver.borrow.domain.aggregate.BorrowState;
-import com.example.bookreservationserver.borrow.domain.aggregate.Borrower;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class BorrowResponse {
 
@@ -21,19 +18,22 @@ public class BorrowResponse {
 
     private LocalDateTime expiredAt;
 
-    private Long booksId;
+    private Book book;
 
-    public BorrowResponse(Borrow borrow) {
+    public BorrowResponse(Borrow borrow, Book book) {
         this.borrow_id = borrow.getBorrow_id();
         this.state = borrow.getState();
         this.createdAt = borrow.getCreatedAt();
         this.expiredAt = borrow.getExpiredAt();
-        this.booksId = borrow.getBookId();
+        this.book = book;
     }
 
     public Long getBorrow_id() { return borrow_id; }
     public BorrowState getState() { return state; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public LocalDateTime getExpiredAt() { return expiredAt; }
-    public Long getBooksId() { return booksId; }
+
+    public Book getBook() {
+        return book;
+    }
 }
