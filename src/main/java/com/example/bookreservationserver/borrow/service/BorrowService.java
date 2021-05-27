@@ -36,7 +36,10 @@ public class BorrowService {
 
         Borrow borrow = new Borrow(borrowRequest);
         borrowEntityRepository.save(borrow);
-        return new BorrowResponse(borrow);
+
+        Book book = bookEntityRepository.findById(borrowRequest.getBookId()).get();
+
+        return new BorrowResponse(borrow, book);
     }
 
 
