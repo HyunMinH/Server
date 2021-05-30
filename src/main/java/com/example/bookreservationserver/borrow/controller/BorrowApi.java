@@ -36,14 +36,12 @@ public class BorrowApi {
         return searchService.getAllBorrowing();
     }
 
-    @GetMapping("api/borrow/expired")
+    @GetMapping("/api/borrow/expired")
     public List<BorrowResponse> getAllExpired(){
         return searchService.getAllExpired();
     }
 
-
     // one user borrows
-
     @GetMapping("/api/borrow/all/{userId}")
     public List<BorrowResponse> getMyBorrow(@PathVariable("userId") Long userId){
         return searchService.getMyReservations(userId);

@@ -26,7 +26,7 @@ public class SearchService {
     public List<BorrowResponse> getAllBorrowing() {
         List<Borrow> borrows = borrowEntityRepository.findAll();
         borrows.forEach(Borrow::setStateIfExpired);
-        return joinWithBook(borrows.stream().filter(Borrow::isBorrowing).collect(Collectors.toList()));
+        return joinWithBook(borrows.stream().filter(b -> b.isBorrowing() || b.isExpired()).collect(Collectors.toList()));
     }
 
     @Transactional
@@ -44,7 +44,7 @@ public class SearchService {
 
         List<Borrow> borrows = borrowEntityRepository.findBorrowsByBorrower_UserId(userId);
         borrows.forEach(Borrow::setStateIfExpired);
-        return joinWithBook(borrows.stream().filter(Borrow::isBorrowing).collect(Collectors.toList()));
+        return joinWithBook(borrows.stream().filter(b -> b.isBorrowing() || b.isExpired()).collect(Collectors.toList()));
     }
 
     @Transactional
