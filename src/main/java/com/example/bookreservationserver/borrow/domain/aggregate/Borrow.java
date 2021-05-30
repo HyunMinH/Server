@@ -3,6 +3,7 @@ package com.example.bookreservationserver.borrow.domain.aggregate;
 import com.example.bookreservationserver.borrow.dto.BorrowRequest;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,9 +23,9 @@ public class Borrow {
     @Enumerated(EnumType.STRING)
     private BorrowState state;
 
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
-    private LocalDateTime expiredAt;
+    private LocalDate expiredAt;
 
     private Long bookId;
 
@@ -41,12 +42,14 @@ public class Borrow {
         if(createdAt != null) throw new IllegalStateException("already set time");
         if(dayOfExpirationInterval <= 0) throw new IllegalArgumentException("interval must grater than 0");
 
-        createdAt = LocalDateTime.now();
+        createdAt = LocalDate.now();
         expiredAt = createdAt.plusDays(dayOfExpirationInterval);
     }
 
     public void setStateIfExpired(){
-        if(LocalDateTime.now().isAfter(expiredAt))
+        if(isReturned()) return;
+
+        if(LocalDate.now().isAfter(expiredAt))
             this.state = BorrowState.EXPIRED;
     }
 
@@ -55,12 +58,23 @@ public class Borrow {
         state = BorrowState.RETURNED;
     }
 
+    public boolean isExpired(){
+        return this.state == BorrowState.EXPIRED;
+    }
+
+    public boolean isReturned(){
+        return this.state == BorrowState.RETURNED;
+    }
+
+    public boolean isBorrowing(){
+        return this.state == BorrowState.BORROWING;
+    }
 
     // getter
     public Long getBorrow_id() { return borrow_id; }
     public Borrower getBorrower() { return borrower; }
     public BorrowState getState() { return state; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getExpiredAt() { return expiredAt; }
+    public LocalDate getCreatedAt() { return createdAt; }
+    public LocalDate getExpiredAt() { return expiredAt; }
     public Long getBookId() { return bookId; }
 }
