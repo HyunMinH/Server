@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,10 +14,13 @@ public class ReturnService {
     private BorrowEntityRepository borrowEntityRepository;
 
     @Transactional
-    public void returnBook(Long borrowId){
-        Optional<Borrow> borrowOptional = borrowEntityRepository.findById(borrowId);
-        if(borrowOptional.isEmpty()) throw new IllegalArgumentException("해당 책은 대여중이 아닙니다.");
-        borrowOptional.get().returned();
+    public void returnBook(Long bookId){
+        List<Borrow> borrows = borrowEntityRepository.findBorrowsByBookId(bookId);
+        if(borrows.isEmpty()) throw new IllegalArgumentException("해당 책이 존재하지 않습니다");
+
+        Borrow borrow = borrows.get(borrows.size()-1);
+        if(borrow.isReturned()) throw new IllegalArgumentException("이미 반납되었습니다.");
+        borrow.returned();
     }
 
     @Autowired

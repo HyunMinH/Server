@@ -23,8 +23,8 @@ public class BorrowApi {
         return borrowService.borrowBook(borrowRequest);
     }
 
-    @PostMapping("/api/borrow/{borrowId}/return")
-    public String returnBook(@PathVariable("borrowId") Long bookId){
+    @PostMapping("/api/borrow/{bookId}/return")
+    public String returnBook(@PathVariable("bookId") Long bookId){
         returnService.returnBook(bookId);
         return "반납이 완료되었습니다.";
     }
