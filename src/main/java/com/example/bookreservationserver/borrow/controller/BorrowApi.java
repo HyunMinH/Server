@@ -5,17 +5,18 @@ import com.example.bookreservationserver.borrow.dto.BorrowResponse;
 import com.example.bookreservationserver.borrow.service.BorrowService;
 import com.example.bookreservationserver.borrow.service.ReturnService;
 import com.example.bookreservationserver.borrow.service.SearchService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class BorrowApi {
-    private SearchService searchService;
-    private ReturnService returnService;
-    private BorrowService borrowService;
+    private final SearchService searchService;
+    private final ReturnService returnService;
+    private final BorrowService borrowService;
 
     @PostMapping(value = "/api/borrow/create", produces = "application/json; charset=utf8")
     public BorrowResponse borrow(@RequestBody @Valid BorrowRequest borrowRequest){
@@ -27,21 +28,34 @@ public class BorrowApi {
         returnService.returnBook(bookId);
         return "반납이 완료되었습니다.";
     }
-    
+
+    // all user's borrows
+
+    @GetMapping("/api/borrow/borrowing")
+    public List<BorrowResponse> getAllBorrowing(){
+        return searchService.getAllBorrowing();
+    }
+
+    @GetMapping("api/borrow/expired")
+    public List<BorrowResponse> getAllExpired(){
+        return searchService.getAllExpired();
+    }
+
+
+    // one user borrows
+
     @GetMapping("/api/borrow/all/{userId}")
-    public List<BorrowResponse> searchMyBorrow(@PathVariable("userId") Long userId){
+    public List<BorrowResponse> getMyBorrow(@PathVariable("userId") Long userId){
         return searchService.getMyReservations(userId);
     }
 
     @GetMapping("/api/borrow/borrowing/{userId}")
-    public List<BorrowResponse> searchMyBorrowing(@PathVariable("userId") Long userId){
+    public List<BorrowResponse> getMyBorrwing(@PathVariable("userId") Long userId){
         return searchService.getMyBorrowingReservations(userId);
     }
 
-    @Autowired
-    public BorrowApi(SearchService searchService, ReturnService returnService, BorrowService borrowService) {
-        this.searchService = searchService;
-        this.returnService = returnService;
-        this.borrowService = borrowService;
+    @GetMapping("/api/borrow/expired/{userId}")
+    public List<BorrowResponse> seaarchMyExpired(@PathVariable("userId") Long userId){
+        return searchService.getMyExpired(userId);
     }
 }

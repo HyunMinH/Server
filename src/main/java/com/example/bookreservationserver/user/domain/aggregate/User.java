@@ -20,6 +20,8 @@ public class User {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
     protected User() {}
 
@@ -28,6 +30,9 @@ public class User {
         this.phoneNum = joinRequest.getPhoneNum();
         this.email = joinRequest.getEmail();
         setPassword(joinRequest.getPassword());
+
+        // default is student
+        userType = UserType.STUDENT;
     }
 
     public User(Long user_id, String name, String phoneNum, String email, String password) {
@@ -72,5 +77,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public UserType getUserType() {
+        return userType;
     }
 }
