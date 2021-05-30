@@ -2,6 +2,7 @@ package com.example.bookreservationserver.borrow.controller;
 
 import com.example.bookreservationserver.borrow.dto.BorrowRequest;
 import com.example.bookreservationserver.borrow.dto.BorrowResponse;
+import com.example.bookreservationserver.borrow.dto.ReturnResponse;
 import com.example.bookreservationserver.borrow.service.BorrowService;
 import com.example.bookreservationserver.borrow.service.ReturnService;
 import com.example.bookreservationserver.borrow.service.SearchService;
@@ -24,9 +25,9 @@ public class BorrowApi {
     }
 
     @PostMapping("/api/borrow/{bookId}/return")
-    public String returnBook(@PathVariable("bookId") Long bookId){
+    public ReturnResponse returnBook(@PathVariable("bookId") Long bookId){
         returnService.returnBook(bookId);
-        return "반납이 완료되었습니다.";
+        return new ReturnResponse("반납이 완료되었습니다.");
     }
 
     // all user's borrows
