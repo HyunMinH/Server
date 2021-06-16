@@ -59,16 +59,20 @@ public class Borrow {
     }
 
     public boolean isExpired(){
+        setStateIfExpired();
         return this.state == BorrowState.EXPIRED;
     }
 
     public boolean isReturned(){
+        setStateIfExpired();
         return this.state == BorrowState.RETURNED;
     }
 
     public boolean isBorrowing(){
+        setStateIfExpired();
         return this.state == BorrowState.BORROWING;
     }
+
 
     // getter
     public Long getBorrow_id() { return borrow_id; }
