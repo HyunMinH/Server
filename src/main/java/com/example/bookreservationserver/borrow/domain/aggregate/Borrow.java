@@ -47,7 +47,7 @@ public class Borrow {
     }
 
     public void setStateIfExpired(){
-        if(isReturned()) return;
+        if(this.state != BorrowState.BORROWING) return;
 
         if(LocalDate.now().isAfter(expiredAt))
             this.state = BorrowState.EXPIRED;
