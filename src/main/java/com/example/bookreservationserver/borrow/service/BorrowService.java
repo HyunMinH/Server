@@ -43,7 +43,7 @@ public class BorrowService {
             throw new IllegalStateException("연체된 책이 있습니다.");
         }
 
-        if(usersBorrows.size() >= 3){
+        if(usersBorrows.stream().filter(Borrow::isBorrowing).count() >= 3){
             throw new IllegalStateException("3권 이상 빌릴 수 없습니다");
         }
 
@@ -52,8 +52,7 @@ public class BorrowService {
         }
 
         List<Borrow> borrows = borrowEntityRepository.findBorrowsByBookId(borrowRequest.getBookId());
-        long borrow_count = borrows.stream().filter(b -> b.isExpired() || b.isBorrowing()).count();
-        if(borrow_count > 0) {
+        if(borrows.stream().anyMatch(Borrow::isBorrowing) || borrows.stream().anyMatch(Borrow::isExpired)){
             throw new IllegalStateException("해당 책은 이미 대여중인 책입니다.");
         }
     }
