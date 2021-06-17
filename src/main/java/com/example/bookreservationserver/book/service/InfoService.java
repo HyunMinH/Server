@@ -28,7 +28,7 @@ public class InfoService {
     }
 
     public List<BookResponse> infoBooks() {
-        List<Borrow> borrowings = borrowEntityRepository.findBorrowsByState(BorrowState.BORROWING);
+        List<Borrow> borrowings = borrowEntityRepository.findAll().stream().filter((borrow)->(borrow.isBorrowing() || borrow.isExpired())).collect(Collectors.toList());
         Set<Long> borrowingsIdSet = borrowings.stream().map(Borrow::getBookId).collect(Collectors.toSet());
 
         List<Book> books = bookEntityRepository.findAll();
