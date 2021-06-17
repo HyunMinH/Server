@@ -11,4 +11,5 @@ public interface BorrowEntityRepository extends JpaRepository<Borrow, Long> {
     List<Borrow> findBorrowsByBookId(Long bookId);
     List<Borrow> findBorrowsByBorrower_UserIdAndState(Long userId, BorrowState state);
     List<Borrow> findBorrowsByBookIdAndState(Long bookId, BorrowState state);
+    List<Borrow> findBorrowsByState(BorrowState state);
 }

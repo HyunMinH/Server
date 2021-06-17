@@ -2,6 +2,7 @@ package com.example.bookreservationserver.book.controller;
 
 import com.example.bookreservationserver.book.domain.aggregate.Book;
 import com.example.bookreservationserver.book.dto.AddRequest;
+import com.example.bookreservationserver.book.dto.BookResponse;
 import com.example.bookreservationserver.book.service.AddService;
 import com.example.bookreservationserver.book.service.DeleteService;
 import com.example.bookreservationserver.book.service.InfoService;
@@ -27,7 +28,7 @@ public class BookApi {
     }
 
     @GetMapping("/api/book/info")
-    public List<Book> infoBooks(){
+    public List<BookResponse> infoBooks(){
         return  infoService.infoBooks();
     }
 
