@@ -1,12 +1,9 @@
-server:
-  address: localhost
-  port: 9090
-  error:
-    include-stacktrace: never
 spring:
+  profiles:
+    active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/book_reservation_db?useSSL=false&characterEncoding=UTF-8&serverTimeZone=UTC
+    url: jdbc:mysql://localhost:3306/library?useSSL=false&characterEncoding=UTF-8&serverTimeZone=UTC
     username: moapp
     password: mo1234
   jpa:
@@ -20,3 +17,14 @@ spring:
     hibernate:
       ddl-auto: update
 
+# local 환경
+---
+server:
+  address: localhost
+  port: 9090
+  error:
+    include-stacktrace: never
+spring:
+  config:
+    activate:
+      on-profile: local

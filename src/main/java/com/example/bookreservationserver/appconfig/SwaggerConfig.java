@@ -1,4 +1,4 @@
-package com.example.bookreservationserver;
+package com.example.bookreservationserver.appconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
