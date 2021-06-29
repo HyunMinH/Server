@@ -14,8 +14,6 @@ class WebRestControllerTest {
 
     public void checkProfile() {
         String profile = this.testRestTemplate.getForObject("/profile", String.class);
-
-
         assertEquals("local", profile);
     }
 }
