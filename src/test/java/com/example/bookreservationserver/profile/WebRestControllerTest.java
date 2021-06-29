@@ -1,6 +1,5 @@
 package com.example.bookreservationserver.profile;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -13,7 +12,6 @@ class WebRestControllerTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    @Test
     public void checkProfile() {
         String profile = this.testRestTemplate.getForObject("/profile", String.class);
         assertEquals("local", profile);
