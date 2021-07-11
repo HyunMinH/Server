@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class BookApi {
+public class BookController {
     private AddService addService;
     private DeleteService deleteService;
     private InfoService infoService;
@@ -39,7 +39,7 @@ public class BookApi {
 
 
     @Autowired
-    public BookApi(AddService addService, DeleteService deleteService, InfoService infoService){
+    public BookController(AddService addService, DeleteService deleteService, InfoService infoService){
         this.addService = addService;
         this.deleteService = deleteService;
         this.infoService = infoService;

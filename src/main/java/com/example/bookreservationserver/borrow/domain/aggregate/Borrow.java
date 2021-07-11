@@ -1,12 +1,10 @@
 package com.example.bookreservationserver.borrow.domain.aggregate;
 
+import com.example.bookreservationserver.borrow.domain.service.BorrowValidator;
 import com.example.bookreservationserver.borrow.dto.BorrowRequest;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -36,6 +34,11 @@ public class Borrow {
         state = BorrowState.BORROWING;
         setBorrowTime(defaultPeriodDay);
         bookId = request.getBookId();
+    }
+
+    public static Borrow createBorrow(BorrowRequest borrowRequest, BorrowValidator borrowValidator){
+        borrowValidator.validate(borrowRequest);
+        return new Borrow(borrowRequest);
     }
 
     private void setBorrowTime(int dayOfExpirationInterval){

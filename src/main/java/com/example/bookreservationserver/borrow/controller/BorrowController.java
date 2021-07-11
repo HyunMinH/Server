@@ -14,12 +14,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class BorrowApi {
+public class BorrowController {
     private final SearchService searchService;
     private final ReturnService returnService;
     private final BorrowService borrowService;
 
-    @PostMapping(value = "/api/borrow/create", produces = "application/json; charset=utf8")
+    @PostMapping(value = "/api/borrow", produces = "application/json; charset=utf8")
     public BorrowResponse borrow(@RequestBody @Valid BorrowRequest borrowRequest){
         return borrowService.borrowBook(borrowRequest);
     }
