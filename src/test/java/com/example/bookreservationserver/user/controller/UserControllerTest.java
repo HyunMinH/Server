@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserApiTest {
+class UserControllerTest {
     public static JoinRequest correctRequest = new JoinRequest("gildong", "01012341234", "gildong@naver.com", "abcd1234");
 
     public static ObjectMapper objectMapper = new ObjectMapper();

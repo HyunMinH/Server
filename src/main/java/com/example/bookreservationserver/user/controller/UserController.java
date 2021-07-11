@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @Slf4j
-public class UserApi {
+public class UserController {
     @Autowired
     private JoinService joinService;
     @Autowired
