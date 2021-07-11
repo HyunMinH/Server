@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class BorrowApi {
+public class BorrowController {
     private final SearchService searchService;
     private final ReturnService returnService;
     private final BorrowService borrowService;
