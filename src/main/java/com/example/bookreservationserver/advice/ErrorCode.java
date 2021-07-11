@@ -27,15 +27,15 @@ public enum ErrorCode {
         this.code = code;
     }
 
-    protected String getCode() {
+    public String getCode() {
         return code;
     }
 
-    protected String getMessage() {
+    public String getMessage() {
         return message;
     }
 
-    protected int getStatus() {
+    public int getStatus() {
         return status;
     }
 }

@@ -24,52 +24,51 @@ public class ErrorResponse {
             this.reason = reason;
         }
 
+        private CustomFieldError(FieldError fieldError){
+            this.field = fieldError.getField();
+            this.value = fieldError.getRejectedValue().toString();
+            this.reason = fieldError.getDefaultMessage();
+        }
+
         public String getField() { return field; }
-
         public String getValue() { return value; }
-
         public String getReason() { return reason; }
     }
 
-    public ErrorResponse(String code, String message, int status, List<FieldError> errors) {
-        this.code = code;
-        this.message = message;
-        this.status = status;
-        this.errors = errors.stream()
-                .map(fieldError -> new CustomFieldError(fieldError.getField(), fieldError.getRejectedValue().toString(),fieldError.getDefaultMessage()))
-                .collect(Collectors.toList());
+    private void setErrorCode(ErrorCode errorCode){
+        this.code = errorCode.getCode();
+        this.message = errorCode.getMessage();
+        this.status = errorCode.getStatus();
     }
 
-    public ErrorResponse(String code, String message, int status, String exceptionMessage) {
-        this.code = code;
-        this.message = message;
-        this.status = status;
+    private ErrorResponse(ErrorCode errorCode, List<FieldError> errors) {
+        setErrorCode(errorCode);
+        this.errors = errors.stream().map(CustomFieldError::new).collect(Collectors.toList());
+    }
+
+    private ErrorResponse(ErrorCode errorCode, String exceptionMessage) {
+        setErrorCode(errorCode);
         this.errors = List.of(new CustomFieldError("", "", exceptionMessage));
     }
 
     public static ErrorResponse of(ErrorCode errorCode){
-        return new ErrorResponse(errorCode.getCode(), errorCode.getMessage(), errorCode.getStatus(), Collections.emptyList());
+        return new ErrorResponse(errorCode, Collections.emptyList());
     }
 
     public static ErrorResponse of(ErrorCode errorCode, BindingResult bindingResult){
-        return new ErrorResponse(errorCode.getCode(), errorCode.getMessage(), errorCode.getStatus(), bindingResult.getFieldErrors());
+        return new ErrorResponse(errorCode, bindingResult.getFieldErrors());
     }
 
     public static ErrorResponse of(ErrorCode errorCode, String exceptionMessage){
-        return new ErrorResponse(errorCode.getCode(), errorCode.getMessage(), errorCode.getStatus(), exceptionMessage);
+        return new ErrorResponse(errorCode, exceptionMessage);
     }
 
     public String getCode() {
         return code;
     }
-
-    public String getMessage() {
-        return message;
-    }
-
+    public String getMessage() { return message; }
     public int getStatus() {
         return status;
     }
-
     public List<CustomFieldError> getErrors() { return errors; }
 }
