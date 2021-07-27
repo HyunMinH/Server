@@ -3,13 +3,16 @@ package com.example.bookreservationserver.borrow.dto;
 import com.example.bookreservationserver.book.domain.aggregate.Book;
 import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
 import com.example.bookreservationserver.borrow.domain.aggregate.BorrowState;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public class BorrowResponse {
-
+@AllArgsConstructor
+@Builder
+public class BorrowBookResponse {
     private Long borrow_id;
 
     @Enumerated(EnumType.STRING)
@@ -25,7 +28,7 @@ public class BorrowResponse {
 
     private Book book;
 
-    public BorrowResponse(Borrow borrow, Book book) {
+    public BorrowBookResponse(Borrow borrow, Book book) {
         this.borrow_id = borrow.getBorrow_id();
         this.state = borrow.getState();
         this.createdAt = borrow.getCreatedAt();

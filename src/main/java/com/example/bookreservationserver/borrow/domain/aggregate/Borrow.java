@@ -2,12 +2,16 @@ package com.example.bookreservationserver.borrow.domain.aggregate;
 
 import com.example.bookreservationserver.borrow.domain.service.BorrowValidator;
 import com.example.bookreservationserver.borrow.dto.BorrowRequest;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Access(AccessType.FIELD)
+@AllArgsConstructor
+@Builder
 public class Borrow {
     private static int defaultPeriodDay = 7;
 

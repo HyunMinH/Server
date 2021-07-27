@@ -1,9 +1,15 @@
 package com.example.bookreservationserver.borrow.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class BorrowRequest {
 
     @NotNull

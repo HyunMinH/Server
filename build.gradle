@@ -2,16 +2,67 @@ plugins {
     id 'org.springframework.boot' version '2.4.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'jacoco'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10" // 추가
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+//jacoco{
+//    toolVersion = '0.8.5'
+//}
+
+test {
+    useJUnitPlatform()
+    finalizedBy 'jacocoTestReport'
+}
+
+jacocoTestReport{
+   reports{
+       html.enabled true
+       xml.enabled false
+       csv.enabled false
+   }
+
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification{
+    violationRules{
+        rule{
+            element = 'CLASS'
+
+            limit{
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.90
+            }
+        }
+    }
+}
+
+test{
+    jacoco{
+        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+    }
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+}
+
+task testCoverage(type: Test){
+    group 'verification'
+    description 'Runs the unit tests with coverage'
+
+    dependsOn(':test', ':jacocoTestReport', ':jacocoTestCoverageVerification')
+
+    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
 }
 
 repositories {
@@ -45,8 +96,33 @@ dependencies {
     // swagger ui
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    // queryDSL
+    implementation 'com.querydsl:querydsl-jpa' // 추가
+    implementation 'com.querydsl:querydsl-apt'
 }
 
-test {
-    useJUnitPlatform()
+
+// queryDSL이 생성하는 QClass 경로 설정
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
 }

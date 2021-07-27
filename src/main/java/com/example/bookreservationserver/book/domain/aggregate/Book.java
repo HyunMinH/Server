@@ -1,12 +1,16 @@
 package com.example.bookreservationserver.book.domain.aggregate;
 
 import com.example.bookreservationserver.book.dto.AddRequest;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Access(AccessType.FIELD)
+@AllArgsConstructor
+@Builder
 public class Book {
     private static final String base_image_url = "https://knu-moapp2.s3.ap-northeast-2.amazonaws.com/static/";
 

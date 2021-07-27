@@ -1,11 +1,11 @@
 package com.example.bookreservationserver.borrow.controller;
 
 import com.example.bookreservationserver.borrow.dto.BorrowRequest;
-import com.example.bookreservationserver.borrow.dto.BorrowResponse;
+import com.example.bookreservationserver.borrow.dto.BorrowBookResponse;
 import com.example.bookreservationserver.borrow.dto.ReturnResponse;
 import com.example.bookreservationserver.borrow.service.BorrowService;
 import com.example.bookreservationserver.borrow.service.ReturnService;
-import com.example.bookreservationserver.borrow.service.SearchService;
+import com.example.bookreservationserver.borrow.service.BorrowSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,16 +15,16 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class BorrowController {
-    private final SearchService searchService;
+    private final BorrowSearchService borrowSearchService;
     private final ReturnService returnService;
     private final BorrowService borrowService;
 
     @PostMapping(value = "/api/borrow", produces = "application/json; charset=utf8")
-    public BorrowResponse borrow(@RequestBody @Valid BorrowRequest borrowRequest){
+    public BorrowBookResponse borrow(@RequestBody @Valid BorrowRequest borrowRequest){
         return borrowService.borrowBook(borrowRequest);
     }
 
-    @PostMapping("/api/borrow/{bookId}/return")
+    @PostMapping(value = "/api/borrow/{bookId}/return" , produces = "application/json; charset=utf8")
     public ReturnResponse returnBook(@PathVariable("bookId") Long bookId){
         returnService.returnBook(bookId);
         return new ReturnResponse("반납이 완료되었습니다.");
@@ -33,28 +33,28 @@ public class BorrowController {
     // all user's borrows
 
     @GetMapping("/api/borrow/borrowing")
-    public List<BorrowResponse> getAllBorrowing(){
-        return searchService.getAllBorrowing();
+    public List<BorrowBookResponse> getAllBorrowing(){
+        return borrowSearchService.getAllBorrowing();
     }
 
     @GetMapping("/api/borrow/expired")
-    public List<BorrowResponse> getAllExpired(){
-        return searchService.getAllExpired();
+    public List<BorrowBookResponse> getAllExpired(){
+        return borrowSearchService.getAllExpired();
     }
 
     // one user borrows
     @GetMapping("/api/borrow/all/{userId}")
-    public List<BorrowResponse> getMyBorrow(@PathVariable("userId") Long userId){
-        return searchService.getMyReservations(userId);
+    public List<BorrowBookResponse> getMyBorrow(@PathVariable("userId") Long userId){
+        return borrowSearchService.getMyReservations(userId);
     }
 
     @GetMapping("/api/borrow/borrowing/{userId}")
-    public List<BorrowResponse> getMyBorrwing(@PathVariable("userId") Long userId){
-        return searchService.getMyBorrowingReservations(userId);
+    public List<BorrowBookResponse> getMyBorrwing(@PathVariable("userId") Long userId){
+        return borrowSearchService.getMyBorrowings(userId);
     }
 
     @GetMapping("/api/borrow/expired/{userId}")
-    public List<BorrowResponse> seaarchMyExpired(@PathVariable("userId") Long userId){
-        return searchService.getMyExpired(userId);
+    public List<BorrowBookResponse> seaarchMyExpired(@PathVariable("userId") Long userId){
+        return borrowSearchService.getMyExpired(userId);
     }
 }
