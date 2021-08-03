@@ -13,13 +13,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doReturn;
 
@@ -35,13 +33,11 @@ class BorrowSearchServiceTest {
     private UserRepository userRepository;
 
     @Test
-    @DisplayName("모든 대여중인 기록 가져오기")
-    public void testGetAllBorrowing(){
+    @DisplayName("모든 대여중인 기록 가져오기 성공")
+    public void testGetAllBorrowingSuccess(){
         //given
-        final List<Borrow> borrowList = borrowList();
-        doReturn(borrowList).when(borrowRepository).findAll();
         final List<BorrowBookResponse> borrowBookList = borrowBookList().stream().filter(b -> b.getState()==BorrowState.BORROWING).collect(Collectors.toList());
-        doReturn(borrowBookList).when(borrowRepository).findBorrowBookAllByState(BorrowState.BORROWING);
+        doReturn(borrowBookList).when(borrowRepository).findBorrowbookAllByState(BorrowState.BORROWING);
 
         //when
         final List<BorrowBookResponse> allBorrowings = borrowSearchService.getAllBorrowing();
@@ -51,13 +47,11 @@ class BorrowSearchServiceTest {
     }
 
     @Test
-    @DisplayName("모든 연체중인 기록 가져오기")
-    public void testGetAllExpired() {
+    @DisplayName("모든 연체중인 기록 가져오기 성공")
+    public void testGetAllExpiredSuccess() {
         //given
-        final List<Borrow> borrowList = borrowList();
-        doReturn(borrowList).when(borrowRepository).findAll();
         final List<BorrowBookResponse> borrowBookList = borrowBookList().stream().filter(b -> b.getState() == BorrowState.EXPIRED).collect(Collectors.toList());
-        doReturn(borrowBookList).when(borrowRepository).findBorrowBookAllByState(BorrowState.EXPIRED);
+        doReturn(borrowBookList).when(borrowRepository).findBorrowbookAllByState(BorrowState.EXPIRED);
 
         //when
         final List<BorrowBookResponse> allBorrowings = borrowSearchService.getAllExpired();
@@ -67,35 +61,45 @@ class BorrowSearchServiceTest {
     }
 
     @Test
-    @DisplayName("유저의 현재 대여중인 목록 가져오기")
-    public void testGetMyBorrowings(){
+    @DisplayName("유저의 현재 대여중인 목록 가져오기 성공")
+    public void testGetOneUserBorrowingsSuccess(){
         //given
-        doReturn(false).when(userRepository).existsById(-1L);
         doReturn(true).when(userRepository).existsById(1L);
-
-        doReturn(Collections.emptyList()).when(borrowRepository).findBorrowsByBorrower_UserId(any());
 
         final List<BorrowBookResponse> borrowBookResponseList = borrowBookList().stream()
                 .filter(b->(b.getState()==BorrowState.BORROWING || b.getState()==BorrowState.EXPIRED)).collect(Collectors.toList());
-        doReturn(borrowBookResponseList).when(borrowRepository).findBorrowBookAllByUserIdAndState(1L, BorrowState.BORROWING);
+        doReturn(borrowBookResponseList).when(borrowRepository).findBorrowbookAllByBorrower_UserIdAndState(1L, BorrowState.BORROWING);
 
         //when
         final List<BorrowBookResponse> myAllBorrowings = borrowSearchService.getMyBorrowings(1L);
-        final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()->borrowSearchService.getMyBorrowings(-1L));
 
         //then
         assertEquals(myAllBorrowings.size(), 4);
-        assertEquals(exception.getMessage(), "해당 유저가 없습니다.");
     }
 
     @Test
-    @DisplayName("유저의 모든 대여 이력 가져오기")
-    public void testGetMyAllReservations(){
+    @DisplayName("유저의 현재 대여중인 목록 가져오기 실패")
+    public void testGetOneUserBorrowingsFailed(){
+        // given
+        doReturn(false).when(userRepository).existsById(-1L);
+
+        // when
+        final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class
+                , ()->borrowSearchService.getMyBorrowings(-1L));
+
+        // then
+        assertEquals(exception.getMessage(), "해당 유저가 없습니다.");
+    }
+
+
+    @Test
+    @DisplayName("유저의 모든 대여 이력 가져오기 성공")
+    public void testGetOneUserAllSuccess(){
         //given
         doReturn(true).when(userRepository).existsById(isA(Long.class));
 
         final List<BorrowBookResponse> borrowBookResponseList = borrowBookList();
-        doReturn(borrowBookResponseList).when(borrowRepository).findBorrowBookAllByUserId(1L);
+        doReturn(borrowBookResponseList).when(borrowRepository).findBorrowbookAllByBorrower_UserId(1L);
 
         //when
         final List<BorrowBookResponse> myAllReservations = borrowSearchService.getMyReservations(1L);
@@ -105,15 +109,13 @@ class BorrowSearchServiceTest {
     }
 
     @Test
-    @DisplayName("유저의 모든 연체 이력 가져오기")
-    public void testGetMyAllExpired(){
+    @DisplayName("유저의 모든 연체 이력 가져오기 성공")
+    public void testGetOneUserAllExpiredSuccess(){
         //given
         doReturn(true).when(userRepository).existsById(isA(Long.class));
 
-        doReturn(Collections.emptyList()).when(borrowRepository).findBorrowsByBorrower_UserId(isA(Long.class));
-
         final List<BorrowBookResponse> borrowBookResponseList = borrowBookList().stream().filter(b->b.getState()==BorrowState.EXPIRED).collect(Collectors.toList());
-        doReturn(borrowBookResponseList).when(borrowRepository).findBorrowBookAllByUserIdAndState(1L, BorrowState.EXPIRED);
+        doReturn(borrowBookResponseList).when(borrowRepository).findBorrowbookAllByBorrower_UserIdAndState(1L, BorrowState.EXPIRED);
 
         //when
         final List<BorrowBookResponse> myAllReservations = borrowSearchService.getMyExpired(1L);

@@ -1,6 +1,5 @@
 package com.example.bookreservationserver.borrow.service;
 
-import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
 import com.example.bookreservationserver.borrow.domain.aggregate.BorrowState;
 import com.example.bookreservationserver.borrow.domain.repository.BorrowRepository;
 import com.example.bookreservationserver.borrow.dto.BorrowBookResponse;
@@ -21,20 +20,12 @@ public class BorrowSearchService {
 
     @Transactional
     public List<BorrowBookResponse> getAllBorrowing() {
-        // 추후 배치를 통해 이를 연산하기
-        List<Borrow> borrows = borrowRepository.findAll();
-        borrows.forEach(Borrow::setStateIfExpired);
-
-        return borrowRepository.findBorrowBookAllByState(BorrowState.BORROWING);
+        return borrowRepository.findBorrowbookAllByState(BorrowState.BORROWING);
     }
 
     @Transactional
     public List<BorrowBookResponse> getAllExpired() {
-        // 배치 연산
-        List<Borrow> borrows = borrowRepository.findAll();
-        borrows.forEach(Borrow::setStateIfExpired);
-
-        return borrowRepository.findBorrowBookAllByState(BorrowState.EXPIRED);
+        return borrowRepository.findBorrowbookAllByState(BorrowState.EXPIRED);
     }
 
 
@@ -42,29 +33,19 @@ public class BorrowSearchService {
     @Transactional
     public List<BorrowBookResponse> getMyBorrowings(Long userId){
         checkUserExist(userId);
-
-        // 배치 연산으로
-        List<Borrow> borrows = borrowRepository.findBorrowsByBorrower_UserId(userId);
-        borrows.forEach(Borrow::setStateIfExpired);
-
-        return borrowRepository.findBorrowBookAllByUserIdAndState(userId, BorrowState.BORROWING);
+        return borrowRepository.findBorrowbookAllByBorrower_UserIdAndState(userId, BorrowState.BORROWING);
     }
 
     @Transactional
     public List<BorrowBookResponse> getMyReservations(Long userId){
         checkUserExist(userId);
-        return borrowRepository.findBorrowBookAllByUserId(userId);
+        return borrowRepository.findBorrowbookAllByBorrower_UserId(userId);
     }
 
     @Transactional
     public List<BorrowBookResponse> getMyExpired(Long userId) {
         checkUserExist(userId);
-
-        // 배치 연산으로
-        List<Borrow> borrows = borrowRepository.findBorrowsByBorrower_UserId(userId);
-        borrows.forEach(Borrow::setStateIfExpired);
-
-        return borrowRepository.findBorrowBookAllByUserIdAndState(userId, BorrowState.EXPIRED);
+        return borrowRepository.findBorrowbookAllByBorrower_UserIdAndState(userId, BorrowState.EXPIRED);
     }
 
     private void checkUserExist(Long userId){

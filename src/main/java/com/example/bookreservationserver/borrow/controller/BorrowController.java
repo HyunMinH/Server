@@ -1,11 +1,12 @@
 package com.example.bookreservationserver.borrow.controller;
 
-import com.example.bookreservationserver.borrow.dto.BorrowRequest;
+import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
 import com.example.bookreservationserver.borrow.dto.BorrowBookResponse;
+import com.example.bookreservationserver.borrow.dto.BorrowRequest;
 import com.example.bookreservationserver.borrow.dto.ReturnResponse;
+import com.example.bookreservationserver.borrow.service.BorrowSearchService;
 import com.example.bookreservationserver.borrow.service.BorrowService;
 import com.example.bookreservationserver.borrow.service.ReturnService;
-import com.example.bookreservationserver.borrow.service.BorrowSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class BorrowController {
     private final BorrowService borrowService;
 
     @PostMapping(value = "/api/borrow", produces = "application/json; charset=utf8")
-    public BorrowBookResponse borrow(@RequestBody @Valid BorrowRequest borrowRequest){
+    public Borrow borrow(@RequestBody @Valid BorrowRequest borrowRequest){
         return borrowService.borrowBook(borrowRequest);
     }
 

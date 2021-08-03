@@ -13,11 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class BorrowServiceTest {
@@ -35,16 +32,15 @@ public class BorrowServiceTest {
     public void testBorrow(){
         //given
         final BorrowRequest borrowRequest = borrowRequest();
-
         doNothing().when(validator).validate(any());
-        final List<BorrowBookResponse> borrowBookResponseList = borrowBookResponse();
-        doReturn(borrowBookResponseList).when(borrowRepository).findBorrowBookByUserIdAndBookIdOrderByLatest(isA(Long.class), isA(Long.class));
 
         //when
-        BorrowBookResponse borrowBookResponse = borrowService.borrowBook(borrowRequest);
+        borrowService.borrowBook(borrowRequest);
 
         //then
-        assertEquals(borrowBookResponse.getBorrow_id(), 3L);
+
+        //verify
+        verify(borrowRepository, times(1)).save(any());
     }
 
     private BorrowRequest borrowRequest(){
@@ -53,7 +49,7 @@ public class BorrowServiceTest {
 
     private List<BorrowBookResponse> borrowBookResponse(){
         return List.of(
-                BorrowBookResponse.builder().borrow_id(3L).build()
+                BorrowBookResponse.builder().borrowId(3L).build()
         );
     }
 }

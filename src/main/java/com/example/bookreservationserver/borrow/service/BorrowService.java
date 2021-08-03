@@ -1,6 +1,8 @@
 package com.example.bookreservationserver.borrow.service;
 
 
+import com.example.bookreservationserver.book.domain.aggregate.Book;
+import com.example.bookreservationserver.book.domain.repository.BookRepository;
 import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
 import com.example.bookreservationserver.borrow.domain.repository.BorrowRepository;
 import com.example.bookreservationserver.borrow.domain.service.BorrowValidator;
@@ -15,16 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 public class BorrowService {
+    private final BookRepository bookRepository;
     private final BorrowRepository borrowRepository;
     private final BorrowValidator borrowValidator;
 
     @Transactional
-    public BorrowBookResponse borrowBook(BorrowRequest borrowRequest){
+    public Borrow borrowBook(BorrowRequest borrowRequest){
         Borrow borrow = Borrow.createBorrow(borrowRequest, borrowValidator);
         borrowRepository.save(borrow);
-
-        return borrowRepository
-                .findBorrowBookByUserIdAndBookIdOrderByLatest(borrowRequest.getBorrowerId(), borrowRequest.getBookId())
-                .get(0);
+        return borrow;
     }
 }

@@ -28,7 +28,7 @@ public class BorrowValidator {
         }
 
         if(usersBorrows.stream().filter(Borrow::isBorrowing).count() >= 3){
-            throw new IllegalStateException("3권 이상 빌릴 수 없습니다");
+            throw new IllegalStateException("3권 이상 빌릴 수 없습니다.");
         }
 
         if(!bookRepository.existsById(borrowRequest.getBookId())){
