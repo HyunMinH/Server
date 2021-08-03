@@ -10,59 +10,10 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
-//jacoco{
-//    toolVersion = '0.8.5'
-//}
-
-test {
-    useJUnitPlatform()
-    finalizedBy 'jacocoTestReport'
-}
-
-jacocoTestReport{
-   reports{
-       html.enabled true
-       xml.enabled false
-       csv.enabled false
-   }
-
-    finalizedBy 'jacocoTestCoverageVerification'
-}
-
-jacocoTestCoverageVerification{
-    violationRules{
-        rule{
-            element = 'CLASS'
-
-            limit{
-                counter = 'LINE'
-                value = 'COVEREDRATIO'
-                minimum = 0.90
-            }
-        }
-    }
-}
-
-test{
-    jacoco{
-        destinationFile = file("$buildDir/jacoco/jacoco.exec")
-    }
-}
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-task testCoverage(type: Test){
-    group 'verification'
-    description 'Runs the unit tests with coverage'
-
-    dependsOn(':test', ':jacocoTestReport', ':jacocoTestCoverageVerification')
-
-    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
-    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
 }
 
 repositories {
@@ -82,8 +33,7 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
+
 
     //qr code
     // https://mvnrepository.com/artifact/com.google.zxing/core
@@ -103,7 +53,75 @@ dependencies {
     // queryDSL
     implementation 'com.querydsl:querydsl-jpa' // 추가
     implementation 'com.querydsl:querydsl-apt'
+
+    // test용 설정
+    testImplementation 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-jdbc'
 }
+
+/*
+* test 관련 task들
+*/
+
+test {
+    useJUnitPlatform()
+    finalizedBy 'jacocoTestReport'
+}
+
+jacocoTestReport{
+   reports{
+       html.enabled true
+       xml.enabled false
+       csv.enabled false
+   }
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect{
+            fileTree(dir: it, excludes: [
+                    '**/aggregate/Q*',
+                    '**/*Builder*'
+            ])
+        }))
+    }
+
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification{
+    violationRules{
+        rule{
+            element = 'CLASS'
+            excludes = [
+                    '**.aggregate.Q*',
+                    '**.*Builder*',
+            ]
+            limit{
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 1.00
+            }
+        }
+    }
+}
+
+//test{
+//    jacoco{
+//        destinationFile = file("$buildDir/jacoco/jacoco.exec")
+//    }
+//}
+
+
+//task testCoverage(type: Test){
+//    group 'verification'
+//    description 'Runs the unit tests with coverage'
+//
+//    dependsOn(':test', ':jacocoTestReport', ':jacocoTestCoverageVerification')
+//
+//    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+//    tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
+//}
+
+
 
 
 // queryDSL이 생성하는 QClass 경로 설정

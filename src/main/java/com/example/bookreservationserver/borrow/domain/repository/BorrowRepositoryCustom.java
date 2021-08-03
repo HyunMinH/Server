@@ -6,9 +6,7 @@ import com.example.bookreservationserver.borrow.dto.BorrowBookResponse;
 import java.util.List;
 
 public interface BorrowRepositoryCustom {
-    List<BorrowBookResponse> findBorrowBookAllByState(BorrowState state);
-    List<BorrowBookResponse> findBorrowBookAllByUserId(Long userId);
-    List<BorrowBookResponse> findBorrowBookAllByUserIdAndState(Long userId, BorrowState state);
-
-    List<BorrowBookResponse> findBorrowBookByUserIdAndBookIdOrderByLatest(Long userId, Long bookId);
+    List<BorrowBookResponse> findBorrowbookAllByState(BorrowState state);
+    List<BorrowBookResponse> findBorrowbookAllByBorrower_UserId(Long userId);
+    List<BorrowBookResponse> findBorrowbookAllByBorrower_UserIdAndState(Long userId, BorrowState state);
 }
