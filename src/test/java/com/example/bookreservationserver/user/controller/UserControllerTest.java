@@ -3,7 +3,6 @@ package com.example.bookreservationserver.user.controller;
 import com.example.bookreservationserver.advice.ErrorCode;
 import com.example.bookreservationserver.user.dto.JoinRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +24,6 @@ class UserControllerTest {
     @Autowired
     protected MockMvc mockMvc;
 
-    @Test
     public void validateJoinRequestName() throws Exception {
         JoinRequest joinRequest = new JoinRequest("honggildong2", correctRequest.getPhoneNum()
                 , correctRequest.getEmail(), correctRequest.getPassword());
@@ -41,25 +39,16 @@ class UserControllerTest {
                 .andDo(print()) // 결과를 출력한다.
                 .andExpect(jsonPath("$.code", is(ErrorCode.INVALID_INPUT_VALUE.getCode()))); // code 파라미터의 내용이 COMMON_001 인지 확인한다.
 
-        // 유저의 이름의 길이가 조건을 만족해서 성공하는 경우다.
-        mockMvc.perform(post("/api/user/join")
-                .contentType("application/json")
-                .content(expectedSuccessRequest))
-                .andDo(print()) // 결과를 출력한다.
-                .andExpect(status().isOk()); // 200 status code를 예상한다.
     }
 
-    @Test
     public void validateJoinRequestPhoneNum(){
 
     }
 
-    @Test
     public void validateJoinRequestEmail(){
 
     }
 
-    @Test
     public void validateJoinRequestPassword(){
 
     }
