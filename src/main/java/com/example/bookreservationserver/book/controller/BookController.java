@@ -1,47 +1,40 @@
 package com.example.bookreservationserver.book.controller;
 
-import com.example.bookreservationserver.book.domain.aggregate.Book;
-import com.example.bookreservationserver.book.dto.AddRequest;
-import com.example.bookreservationserver.book.dto.BookResponse;
-import com.example.bookreservationserver.book.service.AddService;
-import com.example.bookreservationserver.book.service.DeleteService;
-import com.example.bookreservationserver.book.service.InfoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.bookreservationserver.book.dto.BookDto;
+import com.example.bookreservationserver.book.dto.BookRequestDto;
+import com.example.bookreservationserver.book.service.BookAddService;
+import com.example.bookreservationserver.book.service.BookDeleteService;
+import com.example.bookreservationserver.book.service.BookSearchService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class BookController {
-    private AddService addService;
-    private DeleteService deleteService;
-    private InfoService infoService;
+    private final BookAddService bookAddService;
+    private final BookDeleteService bookDeleteService;
+    private final BookSearchService bookSearchService;
 
+    @PostMapping(value = "/api/book", produces = "application/json; charset=utf8")
+    public void addBook(@RequestBody @Valid BookRequestDto bookRequestDto) {
+        bookAddService.addBook(bookRequestDto);
+    }
 
-    @PostMapping(value = "/api/book/add", produces = "application/json; charset=utf8")
-    public void addBook(@RequestBody @Valid AddRequest addRequest) {addService.addBook(addRequest);}
-
-    @DeleteMapping("/api/book/delete/{bookId}")
+    @DeleteMapping("/api/book/{bookId}")
     public void deleteBook(@PathVariable("bookId") Long bookId) {
-        deleteService.deleteBook(bookId);
+        bookDeleteService.deleteBook(bookId);
     }
 
-    @GetMapping("/api/book/info")
-    public List<BookResponse> infoBooks(){
-        return  infoService.infoBooks();
+    @GetMapping("/api/book")
+    public List<BookDto> infoBooks(){
+        return  bookSearchService.infoBooks();
     }
 
-    @GetMapping("/api/book/info/id/{bookId}")
-    public List<Book> infoBook(@PathVariable("bookId") Long bookId){
-        return infoService.infoBook(bookId);
-    }
-
-
-    @Autowired
-    public BookController(AddService addService, DeleteService deleteService, InfoService infoService){
-        this.addService = addService;
-        this.deleteService = deleteService;
-        this.infoService = infoService;
+    @GetMapping("/api/book/{bookId}")
+    public BookDto infoBook(@PathVariable("bookId") Long bookId){
+        return bookSearchService.infoBook(bookId);
     }
 }

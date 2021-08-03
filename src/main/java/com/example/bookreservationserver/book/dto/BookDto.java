@@ -1,11 +1,16 @@
 package com.example.bookreservationserver.book.dto;
 
 import com.example.bookreservationserver.book.domain.aggregate.Book;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.Locale;
 
-public class BookResponse {
+@AllArgsConstructor
+@Builder
+@Getter
+public class BookDto {
     private Long book_id;
 
     private String book_name;
@@ -22,7 +27,7 @@ public class BookResponse {
 
     private String status;
 
-    public BookResponse(Book book, String status){
+    public BookDto(Book book, String status){
         this.book_id = book.getBook_id();
         this.book_name = book.getBook_name();
         this.author = book.getAuthor();
@@ -33,35 +38,13 @@ public class BookResponse {
         this.status = status;
     }
 
-    public Long getBook_id() {
-        return book_id;
-    }
-
-    public String getBook_name() {
-        return book_name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getLibrary() {
-        return library;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public LocalDate getPublication_date() {
-        return publication_date;
-    }
-
-    public String getImage_url() {
-        return image_url;
-    }
-
-    public String getStatus() {
-        return status;
+    public BookDto(Book book){
+        this.book_id = book.getBook_id();
+        this.book_name = book.getBook_name();
+        this.author = book.getAuthor();
+        this.library = book.getLibrary();
+        this.publisher = book.getPublisher();
+        this.publication_date = book.getPublication_date();
+        this.image_url = book.getImage_url();
     }
 }

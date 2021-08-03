@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
-public class DeleteService {
+public class BookDeleteService {
     private BookRepository bookRepository;
 
     @Transactional
@@ -21,7 +21,7 @@ public class DeleteService {
     }
 
     @Autowired
-    public DeleteService(BookRepository bookRepository){
+    public BookDeleteService(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
 }

@@ -1,6 +1,6 @@
 package com.example.bookreservationserver.book.domain.aggregate;
 
-import com.example.bookreservationserver.book.dto.AddRequest;
+import com.example.bookreservationserver.book.dto.BookRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -32,12 +32,12 @@ public class Book {
 
     protected Book() {}
 
-    public Book(AddRequest addRequest){
-        this.book_name = addRequest.getBook_name();
-        this.author = addRequest.getAuthor();
-        this.library = addRequest.getLibrary();
-        this.publisher = addRequest.getPublisher();
-        this.publication_date = addRequest.getPublication_date();
+    public Book(BookRequestDto bookRequestDto){
+        this.book_name = bookRequestDto.getBook_name();
+        this.author = bookRequestDto.getAuthor();
+        this.library = bookRequestDto.getLibrary();
+        this.publisher = bookRequestDto.getPublisher();
+        this.publication_date = bookRequestDto.getPublication_date();
         this.image_url = base_image_url + book_name;
     }
 
