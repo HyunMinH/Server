@@ -168,7 +168,7 @@ class BookControllerTest {
     @DisplayName("한권의 책 정보 가져오기 성공")
     public void testOneUserBooksSuccess() throws Exception {
         //given
-        BookDto bookDto = BookDto.builder().book_id(10L).build();
+        BookDto bookDto = BookDto.builder().id(10L).build();
         doReturn(bookDto).when(bookSearchService).infoBook(10L);
 
         //when
@@ -180,15 +180,15 @@ class BookControllerTest {
         //then
         MvcResult mvcResult = resultActions.andExpect(status().isOk()).andReturn();
         BookDto resultDto = gson.fromJson(mvcResult.getResponse().getContentAsString(), BookDto.class);
-        assertEquals(resultDto.getBook_id(), 10);
+        assertEquals(resultDto.getId(), 10);
     }
 
     private List<BookDto> bookDtoList(){
         return List.of(
-                BookDto.builder().book_id(1L).build(),
-                BookDto.builder().book_id(2L).build(),
-                BookDto.builder().book_id(3L).build(),
-                BookDto.builder().book_id(4L).build()
+                BookDto.builder().id(1L).build(),
+                BookDto.builder().id(2L).build(),
+                BookDto.builder().id(3L).build(),
+                BookDto.builder().id(4L).build()
         );
     }
 

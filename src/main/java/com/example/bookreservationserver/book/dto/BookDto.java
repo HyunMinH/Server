@@ -1,6 +1,7 @@
 package com.example.bookreservationserver.book.dto;
 
 import com.example.bookreservationserver.book.domain.aggregate.Book;
+import com.example.bookreservationserver.borrow.domain.aggregate.BorrowState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import java.time.LocalDate;
 @Builder
 @Getter
 public class BookDto {
-    private Long book_id;
+    private Long id;
 
     private String book_name;
 
@@ -25,26 +26,18 @@ public class BookDto {
 
     private String image_url;
 
-    private String status;
+    private BorrowState state;
 
-    public BookDto(Book book, String status){
-        this.book_id = book.getBook_id();
+    public BookDto(Book book, BorrowState state){
+        this.id = book.getId();
         this.book_name = book.getBook_name();
         this.author = book.getAuthor();
         this.library = book.getLibrary();
         this.publisher = book.getPublisher();
         this.publication_date = book.getPublication_date();
         this.image_url = book.getImage_url();
-        this.status = status;
+        this.state = state;
     }
 
-    public BookDto(Book book){
-        this.book_id = book.getBook_id();
-        this.book_name = book.getBook_name();
-        this.author = book.getAuthor();
-        this.library = book.getLibrary();
-        this.publisher = book.getPublisher();
-        this.publication_date = book.getPublication_date();
-        this.image_url = book.getImage_url();
-    }
+
 }
