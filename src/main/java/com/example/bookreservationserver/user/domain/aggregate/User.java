@@ -1,12 +1,20 @@
 package com.example.bookreservationserver.user.domain.aggregate;
 
 import com.example.bookreservationserver.user.dto.JoinRequest;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Access(AccessType.FIELD)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
 public class User {
     @Id
     @GeneratedValue
@@ -22,8 +30,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
-
-    protected User() {}
 
     public User(JoinRequest joinRequest){
         this.name = joinRequest.getName();
@@ -57,29 +63,5 @@ public class User {
         if(newPw.equals(password)) throw new IllegalArgumentException("new password is same as before");
 
         password = newPw;
-    }
-
-    public Long getUser_id() {
-        return user_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public UserType getUserType() {
-        return userType;
     }
 }
