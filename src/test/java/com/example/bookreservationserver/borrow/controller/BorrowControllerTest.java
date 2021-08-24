@@ -8,9 +8,8 @@ import com.example.bookreservationserver.borrow.dto.ReturnResponse;
 import com.example.bookreservationserver.borrow.service.BorrowSearchService;
 import com.example.bookreservationserver.borrow.service.BorrowService;
 import com.example.bookreservationserver.borrow.service.ReturnService;
-import com.google.gson.Gson;
+import com.example.bookreservationserver.skeleton.ControllerTest;
 import com.google.gson.reflect.TypeToken;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +17,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,8 +29,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
-class BorrowControllerTest {
+class BorrowControllerTest extends ControllerTest {
 
     @InjectMocks
     private BorrowController borrowController;
@@ -45,15 +41,6 @@ class BorrowControllerTest {
     @Mock
     private BorrowSearchService searchService;
 
-    private MockMvc mockMvc;
-
-    private Gson gson;
-
-    @BeforeEach
-    public void init(){
-        mockMvc = MockMvcBuilders.standaloneSetup(borrowController).build();
-        gson = new Gson();
-    }
 
     @Test
     @DisplayName("대여하기 성공")
@@ -205,5 +192,10 @@ class BorrowControllerTest {
                 .borrowerName("hongildong")
                 .bookId(2L)
                 .build();
+    }
+
+    @Override
+    protected Object getController() {
+        return borrowController;
     }
 }
