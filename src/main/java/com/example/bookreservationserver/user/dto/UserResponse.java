@@ -2,12 +2,15 @@ package com.example.bookreservationserver.user.dto;
 
 import com.example.bookreservationserver.user.domain.aggregate.User;
 import com.example.bookreservationserver.user.domain.aggregate.UserType;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
 public class UserResponse {
 
     private Long id;
