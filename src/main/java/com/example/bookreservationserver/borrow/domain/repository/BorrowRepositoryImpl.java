@@ -47,3 +47,4 @@ public class BorrowRepositoryImpl implements BorrowRepositoryCustom{
                 .join(book).on(borrow.bookId.eq(book.id));
     }
 }
+

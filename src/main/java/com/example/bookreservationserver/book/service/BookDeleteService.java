@@ -2,26 +2,19 @@ package com.example.bookreservationserver.book.service;
 
 import com.example.bookreservationserver.book.domain.aggregate.Book;
 import com.example.bookreservationserver.book.domain.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
+@RequiredArgsConstructor
 public class BookDeleteService {
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
     @Transactional
     public void deleteBook(Long bookId){
-        Optional<Book> bookOptional = bookRepository.findById(bookId);
-        if(bookOptional.isEmpty()) throw new IllegalArgumentException("cannot found book by bookId[" +bookId + "]");
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new IllegalArgumentException("책을 찾을 수 없습니다."));
         // 삭제하는 기능??
-        bookRepository.delete(bookOptional.get());
-    }
-
-    @Autowired
-    public BookDeleteService(BookRepository bookRepository){
-        this.bookRepository = bookRepository;
+        bookRepository.delete(book);
     }
 }
