@@ -38,6 +38,4 @@ public class BookDto {
         this.image_url = book.getImage_url();
         this.state = state;
     }
-
-
 }

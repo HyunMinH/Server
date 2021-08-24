@@ -1,35 +1,22 @@
 package com.example.bookreservationserver.borrow.domain.repository;
 
 import com.example.bookreservationserver.book.domain.aggregate.Book;
-import com.example.bookreservationserver.book.domain.repository.BookRepository;
 import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
 import com.example.bookreservationserver.borrow.domain.aggregate.BorrowState;
 import com.example.bookreservationserver.borrow.domain.aggregate.Borrower;
 import com.example.bookreservationserver.borrow.dto.BorrowBookResponse;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import com.example.bookreservationserver.skeleton.RepositoryTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
-@Import(TestConfig.class)
-@ActiveProfiles("test")
-class BorrowRepositoryTest {
-    @Autowired
-    private BorrowRepository borrowRepository;
-
-    @Autowired
-    private BookRepository bookRepository;
-
+class BorrowRepositoryTest extends RepositoryTest {
     @Test
     @DisplayName("생성 성공")
     public void testCreateSuccess(){
