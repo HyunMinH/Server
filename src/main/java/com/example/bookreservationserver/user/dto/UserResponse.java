@@ -26,14 +26,6 @@ public class UserResponse {
     @Enumerated(EnumType.STRING)
     private UserType user_type;
 
-    public UserResponse(Long id, String name, String phoneNum, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.phoneNum = phoneNum;
-        this.email = email;
-        this.password = password;
-    }
-
     public UserResponse(User user){
         this.id = user.getUser_id();
         this.name = user.getName();

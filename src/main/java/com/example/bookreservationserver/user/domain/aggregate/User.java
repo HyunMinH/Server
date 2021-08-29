@@ -50,7 +50,7 @@ public class User {
     }
 
     public void changePassword(String oldPassword, String newPassword){
-        if(!matchPassword(oldPassword)) throw new IllegalArgumentException("password not matched");
+        if(!matchPassword(oldPassword)) throw new IllegalArgumentException("기존 비밀번호와 일치하지 않습니다.");
         setPassword(newPassword);
     }
 
@@ -59,8 +59,8 @@ public class User {
     }
 
     private void setPassword(String newPassword){
-        String newPw = Objects.requireNonNull(newPassword, "new password is null");
-        if(newPw.equals(password)) throw new IllegalArgumentException("new password is same as before");
+        String newPw = Objects.requireNonNull(newPassword, "새 비밀번호가 null입니다.");
+        if(newPw.equals(password)) throw new IllegalArgumentException("기존 비밀번호와 새 비밀번호가 일치합니다.");
 
         password = newPw;
     }
