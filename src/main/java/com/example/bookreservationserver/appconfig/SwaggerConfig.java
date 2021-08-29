@@ -33,5 +33,4 @@ public class SwaggerConfig {
                 .paths(PathSelectors.ant("/api/**"))
                 .build();
     }
-
 }

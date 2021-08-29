@@ -1,5 +1,6 @@
 package com.example.bookreservationserver.advice;
 
+import lombok.Getter;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -7,12 +8,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class ErrorResponse {
     private String code;
     private String message;
     private int status;
     private List<CustomFieldError> errors;
 
+    @Getter
     public static class CustomFieldError{
         private String field;
         private String value;
@@ -29,10 +32,6 @@ public class ErrorResponse {
             this.value = fieldError.getRejectedValue().toString();
             this.reason = fieldError.getDefaultMessage();
         }
-
-        public String getField() { return field; }
-        public String getValue() { return value; }
-        public String getReason() { return reason; }
     }
 
     private void setErrorCode(ErrorCode errorCode){
@@ -62,13 +61,4 @@ public class ErrorResponse {
     public static ErrorResponse of(ErrorCode errorCode, String exceptionMessage){
         return new ErrorResponse(errorCode, exceptionMessage);
     }
-
-    public String getCode() {
-        return code;
-    }
-    public String getMessage() { return message; }
-    public int getStatus() {
-        return status;
-    }
-    public List<CustomFieldError> getErrors() { return errors; }
 }

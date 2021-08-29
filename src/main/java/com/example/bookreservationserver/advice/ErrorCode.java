@@ -1,5 +1,10 @@
 package com.example.bookreservationserver.advice;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ErrorCode {
     // Common
     INVALID_INPUT_VALUE(400, "COMMON_001", " Invalid Input Value"),
@@ -17,25 +22,7 @@ public enum ErrorCode {
     // Exception
     EXCEPTION(500, "EXCEPTION", "exception");
 
+    private int status;
     private final String code;
     private final String message;
-    private int status;
-
-    ErrorCode(final int status, final String code, final String message) {
-        this.status = status;
-        this.message = message;
-        this.code = code;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public int getStatus() {
-        return status;
-    }
 }
