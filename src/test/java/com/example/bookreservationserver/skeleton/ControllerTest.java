@@ -1,5 +1,6 @@
 package com.example.bookreservationserver.skeleton;
 
+import com.example.bookreservationserver.advice.GlobalExceptionHandler;
 import com.google.gson.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +20,8 @@ public abstract class ControllerTest {
 
     @BeforeEach
     public void setUp(){
-        mockMvc = MockMvcBuilders.standaloneSetup(getController()).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(getController())
+                .setControllerAdvice(GlobalExceptionHandler.class).build();
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
