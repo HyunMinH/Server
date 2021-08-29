@@ -41,14 +41,6 @@ public class User {
         userType = UserType.STUDENT;
     }
 
-    public User(Long user_id, String name, String phoneNum, String email, String password) {
-        this.user_id = user_id;
-        this.name = name;
-        this.phoneNum = phoneNum;
-        this.email = email;
-        setPassword(password);
-    }
-
     public void changePassword(String oldPassword, String newPassword){
         if(!matchPassword(oldPassword)) throw new IllegalArgumentException("기존 비밀번호와 일치하지 않습니다.");
         setPassword(newPassword);
