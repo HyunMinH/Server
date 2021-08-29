@@ -1,6 +1,8 @@
 package com.example.bookreservationserver.profile;
 
+import com.example.bookreservationserver.qrcode.domain.QRCodeGenerator;
 import com.example.bookreservationserver.skeleton.ControllerTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,6 +22,7 @@ class WebRestControllerTest extends ControllerTest {
 
     @Mock
     private Environment environment;
+
 
     @Test
     public void checkProfile() throws Exception {

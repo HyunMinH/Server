@@ -14,13 +14,12 @@ public class QRCodeService {
     private final BookRepository bookRepository;
 
     public BufferedImage generateQRCode(Long bookId) {
-        if (!bookRepository.existsById(bookId))
-            throw new IllegalArgumentException("다음 " + bookId + " 를 id로 가지는 book이 없습니다.");
+        bookRepository.findById(bookId).orElseThrow(()->new IllegalArgumentException("해당하는 책이 없습니다."));
 
         try {
             return qrCodeGenerator.generateEAN13BarcodeImage(bookId.toString());
         } catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
+            throw new IllegalArgumentException("QRCode로 변환할 수 없습니다.");
         }
     }
 }
