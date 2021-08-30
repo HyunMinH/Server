@@ -2,12 +2,15 @@ package com.example.bookreservationserver.user.dto;
 
 import com.example.bookreservationserver.user.domain.aggregate.User;
 import com.example.bookreservationserver.user.domain.aggregate.UserType;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
 public class UserResponse {
 
     private Long id;
@@ -22,14 +25,6 @@ public class UserResponse {
 
     @Enumerated(EnumType.STRING)
     private UserType user_type;
-
-    public UserResponse(Long id, String name, String phoneNum, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.phoneNum = phoneNum;
-        this.email = email;
-        this.password = password;
-    }
 
     public UserResponse(User user){
         this.id = user.getUser_id();

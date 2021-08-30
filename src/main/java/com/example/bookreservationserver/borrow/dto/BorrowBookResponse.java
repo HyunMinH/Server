@@ -1,7 +1,6 @@
 package com.example.bookreservationserver.borrow.dto;
 
 import com.example.bookreservationserver.book.domain.aggregate.Book;
-import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
 import com.example.bookreservationserver.borrow.domain.aggregate.BorrowState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,14 +28,4 @@ public class BorrowBookResponse {
     private String userName;
 
     private Book book;
-
-    public BorrowBookResponse(Borrow borrow, Book book) {
-        borrowId = borrow.getId();
-        state = borrow.getState();
-        createdAt = borrow.getCreatedAt();
-        expiredAt = borrow.getExpiredAt();
-        userId = borrow.getBorrower().getUserId();
-        userName = borrow.getBorrower().getUserName();
-        book = book;
-    }
 }

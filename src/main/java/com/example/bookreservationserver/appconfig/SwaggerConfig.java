@@ -15,7 +15,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
-
         return new ApiInfoBuilder()
                 .title("Demo")
                 .description("API EXAMPLE")
@@ -33,5 +32,4 @@ public class SwaggerConfig {
                 .paths(PathSelectors.ant("/api/**"))
                 .build();
     }
-
 }

@@ -1,5 +1,8 @@
 package com.example.bookreservationserver.user.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
@@ -8,13 +11,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Getter
 public class JoinRequest {
     @NotBlank
     @Length(min = 3, max = 10)
     private String name;
 
     @NotBlank
-    @Pattern(regexp = "[0-9]{10,11}")
+    @Pattern(regexp = "^01(?:0|1|[6-9])-?(\\d{3}|\\d{4})-?(\\d{4})")
     private String phoneNum;
 
     @NotBlank
@@ -24,27 +30,4 @@ public class JoinRequest {
     @NotBlank
     @Length(min = 8, max = 16)
     private String password;
-
-    public JoinRequest(String name, String phoneNum, String email, String password) {
-        this.name = name;
-        this.phoneNum = phoneNum;
-        this.email = email;
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

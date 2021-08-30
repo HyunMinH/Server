@@ -2,8 +2,8 @@ package com.example.bookreservationserver.borrow.domain.repository;
 
 import com.example.bookreservationserver.borrow.domain.aggregate.BorrowState;
 import com.example.bookreservationserver.borrow.dto.BorrowBookResponse;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -18,22 +18,22 @@ public class BorrowRepositoryImpl implements BorrowRepositoryCustom{
 
     @Override
     public List<BorrowBookResponse> findBorrowbookAllByState(BorrowState state) {
-        return find(borrow.state.eq(state));
+        return find().where(borrow.state.eq(state)).fetch();
     }
 
     @Override
     public List<BorrowBookResponse> findBorrowbookAllByBorrower_UserId(Long userId) {
-        return find(borrow.borrower.userId.eq(userId));
+        return find().where(borrow.borrower.userId.eq(userId)).fetch();
     }
 
     @Override
     public List<BorrowBookResponse> findBorrowbookAllByBorrower_UserIdAndState(Long userId, BorrowState state) {
-        return find(borrow.borrower.userId.eq(userId).and(borrow.state.eq(state)));
+        return find().where(borrow.borrower.userId.eq(userId).and(borrow.state.eq(state))).fetch();
     }
 
 
 
-    private List<BorrowBookResponse> find(Predicate predicate){
+    private JPAQuery<BorrowBookResponse> find(){
         return queryFactory
                 .select(Projections.constructor(BorrowBookResponse.class,
                         borrow.id,
@@ -44,8 +44,7 @@ public class BorrowRepositoryImpl implements BorrowRepositoryCustom{
                         borrow.borrower.userName,
                         book
                 )).from(borrow)
-                .join(book).on(borrow.bookId.eq(book.book_id))
-                .where(predicate)
-                .fetch();
+                .join(book).on(borrow.bookId.eq(book.id));
     }
 }
+

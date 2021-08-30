@@ -1,35 +1,22 @@
 package com.example.bookreservationserver.borrow.domain.repository;
 
 import com.example.bookreservationserver.book.domain.aggregate.Book;
-import com.example.bookreservationserver.book.domain.repository.BookRepository;
 import com.example.bookreservationserver.borrow.domain.aggregate.Borrow;
 import com.example.bookreservationserver.borrow.domain.aggregate.BorrowState;
 import com.example.bookreservationserver.borrow.domain.aggregate.Borrower;
 import com.example.bookreservationserver.borrow.dto.BorrowBookResponse;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import com.example.bookreservationserver.skeleton.RepositoryTest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
-@Import(TestConfig.class)
-@ActiveProfiles("test")
-class BorrowRepositoryTest {
-    @Autowired
-    private BorrowRepository borrowRepository;
-
-    @Autowired
-    private BookRepository bookRepository;
-
+class BorrowRepositoryTest extends RepositoryTest {
     @Test
     @DisplayName("생성 성공")
     public void testCreateSuccess(){
@@ -45,8 +32,8 @@ class BorrowRepositoryTest {
 
 
         assertTrue(bookList.size() == 6);
-        assertNotNull(bookList.get(0).getBook_id());
-        assertEquals(bookList.get(0).getBook_id(), borrowList.get(0).getBookId());
+        assertNotNull(bookList.get(0).getId());
+        assertEquals(bookList.get(0).getId(), borrowList.get(0).getBookId());
     }
 
     @Test
@@ -136,19 +123,19 @@ class BorrowRepositoryTest {
 
     public List<Borrow> borrowList(List<Book> books){
         return List.of(
-                Borrow.builder().bookId(books.get(0).getBook_id()).state(BorrowState.BORROWING).createdAt(LocalDate.now())
+                Borrow.builder().bookId(books.get(0).getId()).state(BorrowState.BORROWING).createdAt(LocalDate.now())
                 .expiredAt(LocalDate.now().plusDays(7)).borrower(new Borrower(1L, "hong")).build(),
-                Borrow.builder().bookId(books.get(1).getBook_id()).state(BorrowState.BORROWING).createdAt(LocalDate.now())
+                Borrow.builder().bookId(books.get(1).getId()).state(BorrowState.BORROWING).createdAt(LocalDate.now())
                         .expiredAt(LocalDate.now().plusDays(7)).borrower(new Borrower(1L, "hong")).build(),
 
-                Borrow.builder().bookId(books.get(2).getBook_id()).state(BorrowState.EXPIRED).createdAt(LocalDate.now())
+                Borrow.builder().bookId(books.get(2).getId()).state(BorrowState.EXPIRED).createdAt(LocalDate.now())
                         .expiredAt(LocalDate.now().plusDays(7)).borrower(new Borrower(1L, "hong")).build(),
-                Borrow.builder().bookId(books.get(3).getBook_id()).state(BorrowState.EXPIRED).createdAt(LocalDate.now())
+                Borrow.builder().bookId(books.get(3).getId()).state(BorrowState.EXPIRED).createdAt(LocalDate.now())
                         .expiredAt(LocalDate.now().plusDays(7)).borrower(new Borrower(2L, "kim")).build(),
 
-                Borrow.builder().bookId(books.get(4).getBook_id()).state(BorrowState.RETURNED).createdAt(LocalDate.now())
+                Borrow.builder().bookId(books.get(4).getId()).state(BorrowState.RETURNED).createdAt(LocalDate.now())
                         .expiredAt(LocalDate.now().plusDays(7)).borrower(new Borrower(2L, "kim")).build(),
-                Borrow.builder().bookId(books.get(5).getBook_id()).state(BorrowState.RETURNED).createdAt(LocalDate.now())
+                Borrow.builder().bookId(books.get(5).getId()).state(BorrowState.RETURNED).createdAt(LocalDate.now())
                         .expiredAt(LocalDate.now().plusDays(7)).borrower(new Borrower(2L, "kim")).build()
         );
     }

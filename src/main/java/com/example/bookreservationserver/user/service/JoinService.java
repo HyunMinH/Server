@@ -4,30 +4,22 @@ import com.example.bookreservationserver.user.domain.aggregate.User;
 import com.example.bookreservationserver.user.domain.repository.UserRepository;
 import com.example.bookreservationserver.user.dto.JoinRequest;
 import com.example.bookreservationserver.user.dto.UserResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class JoinService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public UserResponse join(JoinRequest joinRequest){
-        checkDuplicateId(joinRequest.getEmail());
-        User user = saveAsNewUser(joinRequest);
-        return new UserResponse(user);
-    }
+    public UserResponse join(JoinRequest joinRequest) {
+        if (userRepository.countByEmail(joinRequest.getEmail()) > 0)
+            throw new IllegalArgumentException("이메일이 중복됩니다.");
 
-    private User saveAsNewUser(JoinRequest joinRequest) {
         User user = new User(joinRequest);
         userRepository.save(user);
-        return user;
-    }
-
-    private void checkDuplicateId(String email){
-        if(userRepository.countByEmail(email) > 0)
-            throw new IllegalArgumentException("duplicated email.");
+        return new UserResponse(user);
     }
 }
