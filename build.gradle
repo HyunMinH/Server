@@ -58,6 +58,10 @@ dependencies {
     testImplementation 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // https://mvnrepository.com/artifact/com.jakewharton.timber/timber
+    implementation group: 'com.jakewharton.timber', name: 'timber', version: '5.0.1'
+
 }
 
 /*
